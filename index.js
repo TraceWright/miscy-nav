@@ -43,7 +43,7 @@ client.on("message", message => {
         const matchSgl = message.content.match(sglQuote);
         const matchOtherSgl = message.content.match(otherSglQuote);
 
-        if (!!matchDbl || !!matchSgl || !!matchOtherDbl || matchOtherSgl) {
+        if (!!matchDbl || !!matchSgl || !!matchOtherDbl || !!matchOtherSgl) {
             let gym;
             if (!!matchDbl) { 
                 gym = matchDbl[0];
@@ -72,8 +72,11 @@ client.on("message", message => {
 
             let gym = msg[1];
             let t = splitTime(msg[2]);
-            let h = new Date().getHours() > 12 && t[0] <= 12 && t[0] > 0 ? t[0] + 12 : t[0];
-            let timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
+            let timeToHatch;
+            if (!!t !== false) {
+                let h = new Date().getHours() > 12 && t[0] <= 12 && t[0] > 0 ? t[0] + 12 : t[0];
+                timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
+            }
             if (!!tier && !!gyms[gym] && !!timeToHatch && timeToHatch > 0) {
                 client.channels.get("511390047434702849").send(`$egg ${tier} "${gyms[gym]}" ${timeToHatch}`);
             } else {
