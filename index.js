@@ -25,7 +25,7 @@ const calcTimeToHatch = (hatchTime) => {
 }
 
 client.on("message", message => {
-    const tiers = ["T1", "T2", "T3", "T4", "T5"];
+    const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
     const channels = ["499533390920417290", "506409230383841286", "501313521410244610", "499532605348249601"];
     let msg = message.content.split(" ");
 
@@ -63,7 +63,7 @@ client.on("message", message => {
                 timeToHatch = !!t && t.length === 2 ? calcTimeToHatch(calcHatchTime(h, t[1])) : null;
             }
 
-            if (!!tier && !!gym && !!timeToHatch && timeToHatch > 0) {
+            if (!!tier && !!gym && !!timeToHatch && timeToHatch > 0 && timeToHatch <= 60) {
                 client.channels.get("511390047434702849").send(`$egg ${tier} ${gym} ${timeToHatch}`); 
             } else {
                 console.log("error: ", "tier: ", tier, " gym: ", gym, " time to hatch: ", timeToHatch);
@@ -79,7 +79,7 @@ client.on("message", message => {
                 let h = new Date().getHours() > 12 && t[0] <= 12 && t[0] > 0 ? t[0] + 12 : t[0];
                 timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
             }
-            if (!!tier && !!gyms[gym] && !!timeToHatch && timeToHatch > 0) {
+            if (!!tier && !!gyms[gym] && !!timeToHatch && timeToHatch > 0 && timeToHatch <= 60) {
                 client.channels.get("511390047434702849").send(`$egg ${tier} "${gyms[gym]}" ${timeToHatch}`);
             } else {
                 console.log("error: ", "tier: ", tier, " gym: ", gyms[gym], " time to hatch: ", timeToHatch);
@@ -93,4 +93,4 @@ client.on("message", message => {
 require("log-timestamp");
 console.log("Opening Connection");
 
-client.login("token");
+client.login("NTExMzg3OTM0MDEyNzM1NDg4.DsqOyQ.D90r74WlrSImcEjwrJFQ2Oal4zI");
