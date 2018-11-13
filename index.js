@@ -93,4 +93,4 @@ client.on("message", message => {
 require("log-timestamp");
 console.log("Opening Connection");
 
-client.login("NTExMzg3OTM0MDEyNzM1NDg4.DsqOyQ.D90r74WlrSImcEjwrJFQ2Oal4zI");
+client.login("token");
