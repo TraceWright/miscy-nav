@@ -25,9 +25,10 @@ const calcTimeToHatch = (hatchTime) => {
 
 client.on("message", message => {
     const tiers = ["T1", "T2", "T3", "T4", "T5"];
+    const channels = ["499533390920417290", "506409230383841286", "501313521410244610"];
     let msg = message.content.split(" ");
 
-    if (tiers.includes(msg[0].toString()) && message.channel.id === "499532605348249601") {
+    if (tiers.includes(msg[0].toString()) && channels.includes(message.channel.id)) {
         
         // tier always has to be the first part of the message
         let tier = msg[0].substring(1,2);
@@ -87,5 +88,8 @@ client.on("message", message => {
     }
 
 });
+
+require("log-timestamp");
+console.log("Opening Connection");
 
 client.login("token");
