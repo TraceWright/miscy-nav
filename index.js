@@ -73,11 +73,13 @@ client.on("message", message => {
         } else {
 
             let gym = msg[1].toLowerCase();
-            let t = splitTime(msg[2]);
             let timeToHatch;
-            if (!!t !== false) {
-                let h = new Date().getHours() > 12 && t[0] <= 12 && t[0] > 0 ? t[0] + 12 : t[0];
-                timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
+            if (msg[2].match(timeReg)) {
+                let t = splitTime(msg[2]);
+                if (!!t !== false) {
+                    let h = new Date().getHours() > 12 && t[0] <= 12 && t[0] > 0 ? t[0] + 12 : t[0];
+                    timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
+                }
             }
             if (!!tier && !!gyms[gym] && !!timeToHatch && timeToHatch > 0 && timeToHatch <= 60) {
                 client.channels.get("511390047434702849").send(`$egg ${tier} "${gyms[gym]}" ${timeToHatch}`);
