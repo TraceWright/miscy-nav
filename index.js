@@ -25,7 +25,7 @@ const calcTimeToHatch = (hatchTime) => {
 
 client.on("message", message => {
     const tiers = ["T1", "T2", "T3", "T4", "T5"];
-    const channels = ["499533390920417290", "506409230383841286", "501313521410244610"];
+    const channels = ["499533390920417290", "506409230383841286", "501313521410244610", "499532605348249601"];
     let msg = message.content.split(" ");
 
     if (tiers.includes(msg[0].toString()) && channels.includes(message.channel.id)) {
@@ -71,7 +71,7 @@ client.on("message", message => {
 
         } else {
 
-            let gym = msg[1];
+            let gym = msg[1].toLowerCase();
             let t = splitTime(msg[2]);
             let timeToHatch;
             if (!!t !== false) {
@@ -83,7 +83,7 @@ client.on("message", message => {
             } else {
                 console.log("error: ", "tier: ", tier, " gym: ", gyms[gym], " time to hatch: ", timeToHatch);
                 client.channels.get("511472297513713674").send(`Error: Tier: ${!!tier ? tier : tier}, Gym: ${!!gyms[gym] ? gyms[gym] : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`);
-            }    
+            }
         }
     }
 
