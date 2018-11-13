@@ -1,3 +1,4 @@
+process.env.TZ = 'Australia/Brisbane';
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const gyms = require('./gyms.json');
