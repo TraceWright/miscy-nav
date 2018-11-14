@@ -141,4 +141,4 @@ client.on("message", message => {
 require("log-timestamp");
 console.log("Opening Connection");
 
-client.login("NTExMzg3OTM0MDEyNzM1NDg4.Ds1ntg.4ExBITV1EcPhfBD3AMsHlX-GIvU");
+client.login("token");
