@@ -30,7 +30,7 @@ const channelsLookup = [
     },
     {
         channelId: "499532605348249601",
-        gymsLookup: "",
+        gymsLookup: allGyms,
         name: "discord_admin",
     }
 ];
