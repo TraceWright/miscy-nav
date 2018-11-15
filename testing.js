@@ -1,37 +1,27 @@
 process.env.TZ = 'Australia/Brisbane';
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const allGyms = require('./gyms/allGyms.json');
+const allGyms = require('./gyms.json');
 const kpGyms = require('./gyms/kpGyms');
 const sbGyms = require('./gyms/sbGyms');
 const cbdGyms = require('./gyms/cbdGyms');
 
-
-const timeReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
-const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
-const reportChannel = "511390047434702849";
-const errorChannel = "511472297513713674";
-
+// testing
 const channelsLookup = [ 
     { 
-        channelId: "506409230383841286",
+        channelId: "409285420149506048",
         gymsLookup: cbdGyms,
         name: "cbd",
     },
     { 
-        channelId: "501313521410244610",
+        channelId: "512425665442742277",
         gymsLookup: sbGyms,
         name: "southbank",
     },
     {
-        channelId: "499533390920417290",
+        channelId: "512426983712620565",
         gymsLookup: kpGyms,
         name: "kp_gabba_eastbris",
-    },
-    {
-        channelId: "499532605348249601",
-        gymsLookup: "",
-        name: "discord_admin",
     }
 ];
 
@@ -39,8 +29,9 @@ const timeReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
 const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
 
 const listenerChannels = channelsLookup.map(ch => { return ch.channelId });
-const reportChannel ="511390047434702849";
-const errorChannel ="511472297513713674";
+// testing
+const reportChannel ="498465708850544659"
+const errorChannel ="498467773610197043"
 
 const splitTime = (t) => {
     let time = t.split(":");
@@ -181,4 +172,40 @@ client.on("message", message => {
 require("log-timestamp");
 console.log("Opening Connection");
 
-client.login("token");
+client.login("NTExMzcwMDQ3MzMyMDI0MzMx.Ds1Bkg.Lskja-R1Xr22m6mVx09j9DiBP3E");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let t = splitTime(msg[3]);
+// console.log((39 + t[1]));
+// console.log(12 === 12 && t[0] <= 12 && (39 + t[1]) > 60);
+
+// // const h = (new Date().getHours() >= 12 ||
+// //     new Date().getHours() > 12 && new Date().getHours() < 13 && 
+// const h = ((12 >= 12 && t[0] < 12) 
+// // ||  // if (it's after 12 noon AND the raid is reported in 12 hour time) OR
+// //     (12 === 12 && t[0] === 1)  // (it's 12:something AND the raid reported will be at or after 1pm
+//     ?
+//     t[0] + 12 :
+//     t[0]);
+
+// let timeToHatch = !!t && t.length === 2 ? calcTimeToHatch(calcHatchTime(h, t[1])) : null;
+
+// console.log(timeToHatch);
+
