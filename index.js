@@ -6,12 +6,6 @@ const kpGyms = require('./gyms/kpGyms');
 const sbGyms = require('./gyms/sbGyms');
 const cbdGyms = require('./gyms/cbdGyms');
 
-
-const timeReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
-const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
-const reportChannel = "511390047434702849";
-const errorChannel = "511472297513713674";
-
 const channelsLookup = [ 
     { 
         channelId: "506409230383841286",
