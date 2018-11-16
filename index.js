@@ -115,7 +115,7 @@ client.on("message", message => {
                     client.channels.get(reportChannel).send(`$egg ${tierMatch[0]} ${gym} ${timeToHatch}`); 
                 } else {
                     console.log("error: ", "tier: ", tierMatch[0], " gym: ", gym, " time to hatch: ", timeToHatch);
-                    client.channels.get(errorChannel).send(`Error: Tier: ${tierMatch[0]}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
+                    client.channels.get(errorChannel).send(`Error: Tier: ${tierMatch[0].substring(1,2)}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
                 }
 
             } else {
