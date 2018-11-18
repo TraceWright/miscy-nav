@@ -5,6 +5,7 @@ const allGyms = require('./gyms/allGyms.json');
 const kpGyms = require('./gyms/kpGyms');
 const sbGyms = require('./gyms/sbGyms');
 const cbdGyms = require('./gyms/cbdGyms');
+const westEndGyms = require("./gyms/westEndGyms");
 
 const channelsLookup = [ 
     { 
@@ -23,13 +24,19 @@ const channelsLookup = [
         name: "kp_gabba_eastbris",
     },
     {
+        channelId: "512597629796876298",
+        gymsLookup: westEndGyms,
+        name: "westend"
+    },
+    {
         channelId: "499532605348249601",
         gymsLookup: allGyms,
         name: "discord_admin",
     }
 ];
 
-const timeReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
+const timeColonReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
+const timeDotReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3])[\d\.][0-5][0-9]$/gm);
 const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
 
 const listenerChannels = channelsLookup.map(ch => { return ch.channelId });
@@ -76,7 +83,15 @@ client.on("message", message => {
 
         console.log(msg);
         let tierMatch = msg.filter((m, i) => { return tiers.includes(m) });
-        let timeMatch = msg.filter(m => { return m.match(timeReg) });
+        let timeColonMatch = msg.filter(m => { return m.match(timeColonReg) });
+        let timeDotMatch = msg.filter(m => { return m.match(timeDotReg) });
+
+        let timeMatch;
+        if (timeColonMatch.length > 0 || timeDotMatch.length > 0) {
+            timeMatch = timeColonMatch.length > 0 ? timeColonMatch : timeDotMatch;
+        } else {
+            timeMatch = null;
+        }
 
         // must always have tier and time declared in incoming message
         if (tierMatch.length > 0 && timeMatch.length > 0) {

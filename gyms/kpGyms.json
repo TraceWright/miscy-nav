@@ -5,7 +5,8 @@
     "anchor": "franklin nicklin dock anchor",
     "propellor": "black propellor",
     "crossover": "crossover guardian",
-    "stradbroke": "stradbroke tower",
+    "stradbroke": "stradbroke tower fountain",
+    "stradbroke tower": "stradbroke tower fountain",
     "worms": "the 4 worms",
     "4 worms": "the 4 worms",
     "sun": "sun tiles",
@@ -13,6 +14,7 @@
     "angel statue": "moroni angel statue",
     "moroni": "moroni angel statue",
     "mowbray": "mowbray park wharf",
+    "mowbray park": "mowbray park wharf",
     "stone": "stone illusion",
     "pelicans": "heavy metal pelicans"
 }
