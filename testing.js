@@ -43,7 +43,7 @@ const splitTime = (t) => {
     } else {
         time = [];
     }
-    return !!time ? [parseInt(time[0]), parseInt(time[1])] : [];
+    return !!time && time.length > 0 ? [parseInt(time[0]), parseInt(time[1])] : [];
 }
 
 const calcRaidHour = (h) => {
@@ -191,4 +191,4 @@ client.on("message", message => {
 require("log-timestamp");
 console.log("Opening Connection");
 
-client.login("token");
+client.login("NTExMzcwMDQ3MzMyMDI0MzMx.DtPrdQ.EBsx9hAwEpVeL5-PSgc7FIVsDDE");

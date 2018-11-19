@@ -52,7 +52,7 @@ const splitTime = (t) => {
     } else {
         time = [];
     }
-    return !!time ? [parseInt(time[0]), parseInt(time[1])] : [];
+    return !!time && time.length > 0 ? [parseInt(time[0]), parseInt(time[1])] : [];
 }
 
 const calcRaidHour = (h) => {
