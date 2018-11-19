@@ -44,8 +44,15 @@ const reportChannel ="511390047434702849";
 const errorChannel ="511472297513713674";
 
 const splitTime = (t) => {
-    let time = t.split(":");
-    return [parseInt(time[0]), parseInt(time[1])];
+    let time;
+    if (t.split("").includes(":")) {
+        time = t.split(":");
+    } else if (t.split("").includes(".")) {
+        time = t.split(".");
+    } else {
+        time = [];
+    }
+    return !!time ? [parseInt(time[0]), parseInt(time[1])] : [];
 }
 
 const calcRaidHour = (h) => {
@@ -90,7 +97,7 @@ client.on("message", message => {
         if (timeColonMatch.length > 0 || timeDotMatch.length > 0) {
             timeMatch = timeColonMatch.length > 0 ? timeColonMatch : timeDotMatch;
         } else {
-            timeMatch = null;
+            timeMatch = [];
         }
 
         // must always have tier and time declared in incoming message
@@ -122,10 +129,7 @@ client.on("message", message => {
                 if (!!t !== false && t.length === 2) {
                     let h = calcRaidHour(t[0]);
                     timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
-                } else {
-                    console.error("system error - time to hatch");
                 }
-
                 if (!!gym && !!timeToHatch && timeToHatch > 0 && timeToHatch <= 60) {
                     client.channels.get(reportChannel).send(`$egg ${tierMatch[0]} ${gym} ${timeToHatch}`); 
                 } else {
@@ -153,7 +157,7 @@ client.on("message", message => {
                 }
                 if (gymAbbrvMatch.length > 0 || (!!gymNameMatch && gymNameMatch.length > 0)) {
                     let t = splitTime(timeMatch[0]);
-                    if (!!t !== false) {
+                    if (!!t !== false && t.length === 2) {
                         let h = calcRaidHour(t[0]);
                         timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
                     }
