@@ -158,7 +158,7 @@ client.on("message", message => {
                         timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
                     }
                     if ((!!timeToHatch || timeToHatch === 0) && timeToHatch >= 0 && timeToHatch <= 60) {
-                        const gymName = NameAbbrvMatch.length > 0 ? gyms[gymAbbrvMatch[0]] : gymNameMatch[0];
+                        const gymName = gymAbbrvMatch.length > 0 ? gyms[gymAbbrvMatch[0]] : gymNameMatch[0];
                         const report = !!gymNameMatch ?
                             `$egg ${tierMatch[0].substring(1,2)} "${gymName}" ${timeToHatch}` :
                             `$egg ${tierMatch[0].substring(1,2)} "${gymName}" ${timeToHatch}` ;
