@@ -1,7 +1,7 @@
 process.env.TZ = 'Australia/Brisbane';
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const allGyms = require('./gyms.json');
+const allGyms = require('./gyms/allGyms.json');
 const kpGyms = require('./gyms/kpGyms');
 const sbGyms = require('./gyms/sbGyms');
 const cbdGyms = require('./gyms/cbdGyms');
@@ -25,7 +25,8 @@ const channelsLookup = [
     }
 ];
 
-const timeReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
+const timeColonReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
+const timeDotReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3])[\d\.][0-5][0-9]$/gm);
 const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
 
 const listenerChannels = channelsLookup.map(ch => { return ch.channelId });
@@ -73,7 +74,15 @@ client.on("message", message => {
 
         console.log(msg);
         let tierMatch = msg.filter((m, i) => { return tiers.includes(m) });
-        let timeMatch = msg.filter(m => { return m.match(timeReg) });
+        let timeColonMatch = msg.filter(m => { return m.match(timeColonReg) });
+        let timeDotMatch = msg.filter(m => { return m.match(timeDotReg) });
+
+        let timeMatch;
+        if (timeColonMatch.length > 0 || timeDotMatch.length > 0) {
+            timeMatch = timeColonMatch.length > 0 ? timeColonMatch : timeDotMatch;
+        } else {
+            timeMatch = null;
+        }
 
         // must always have tier and time declared in incoming message
         if (tierMatch.length > 0 && timeMatch.length > 0) {
@@ -112,7 +121,7 @@ client.on("message", message => {
                     client.channels.get(reportChannel).send(`$egg ${tierMatch[0]} ${gym} ${timeToHatch}`); 
                 } else {
                     console.log("error: ", "tier: ", tierMatch[0], " gym: ", gym, " time to hatch: ", timeToHatch);
-                    client.channels.get(errorChannel).send(`Error: Tier: ${tierMatch[0]}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
+                    client.channels.get(errorChannel).send(`Error: Tier: ${tierMatch[0].substring(1,2)}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
                 }
 
             } else {
@@ -140,9 +149,14 @@ client.on("message", message => {
                         timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
                     }
                     if ((!!timeToHatch || timeToHatch === 0) && timeToHatch >= 0 && timeToHatch <= 60) {
+                        console.log(gymNameMatch);
+                        console.log(gymAbbrvMatch);
+
+                        const g = gymAbbrvMatch.length > 0 ? gyms[gymAbbrvMatch[0]] : gymNameMatch[0];
+
                         const report = !!gymNameMatch ?
-                            `$egg ${tierMatch[0].substring(1,2)} "${gymNameMatch}" ${timeToHatch}` :
-                            `$egg ${tierMatch[0].substring(1,2)} "${gyms[gymAbbrvMatch[0]]}" ${timeToHatch}` ;
+                            `$egg ${tierMatch[0].substring(1,2)} "${g}" ${timeToHatch}` :
+                            `$egg ${tierMatch[0].substring(1,2)} "${g}" ${timeToHatch}` ;
                         ;
                         console.info(report);
                         client.channels.get(reportChannel).send(report);
@@ -172,40 +186,4 @@ client.on("message", message => {
 require("log-timestamp");
 console.log("Opening Connection");
 
-client.login("NTExMzcwMDQ3MzMyMDI0MzMx.Ds1Bkg.Lskja-R1Xr22m6mVx09j9DiBP3E");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let t = splitTime(msg[3]);
-// console.log((39 + t[1]));
-// console.log(12 === 12 && t[0] <= 12 && (39 + t[1]) > 60);
-
-// // const h = (new Date().getHours() >= 12 ||
-// //     new Date().getHours() > 12 && new Date().getHours() < 13 && 
-// const h = ((12 >= 12 && t[0] < 12) 
-// // ||  // if (it's after 12 noon AND the raid is reported in 12 hour time) OR
-// //     (12 === 12 && t[0] === 1)  // (it's 12:something AND the raid reported will be at or after 1pm
-//     ?
-//     t[0] + 12 :
-//     t[0]);
-
-// let timeToHatch = !!t && t.length === 2 ? calcTimeToHatch(calcHatchTime(h, t[1])) : null;
-
-// console.log(timeToHatch);
-
+client.login("token");

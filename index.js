@@ -158,9 +158,10 @@ client.on("message", message => {
                         timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
                     }
                     if ((!!timeToHatch || timeToHatch === 0) && timeToHatch >= 0 && timeToHatch <= 60) {
+                        const gymName = NameAbbrvMatch.length > 0 ? gyms[gymAbbrvMatch[0]] : gymNameMatch[0];
                         const report = !!gymNameMatch ?
-                            `$egg ${tierMatch[0].substring(1,2)} "${gymNameMatch}" ${timeToHatch}` :
-                            `$egg ${tierMatch[0].substring(1,2)} "${gyms[gymAbbrvMatch[0]]}" ${timeToHatch}` ;
+                            `$egg ${tierMatch[0].substring(1,2)} "${gymName}" ${timeToHatch}` :
+                            `$egg ${tierMatch[0].substring(1,2)} "${gymName}" ${timeToHatch}` ;
                         ;
                         console.info(report);
                         client.channels.get(reportChannel).send(report);
