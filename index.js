@@ -131,7 +131,7 @@ client.on("message", message => {
                     timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
                 }
                 if (!!gym && !!timeToHatch && timeToHatch > 0 && timeToHatch <= 60) {
-                    client.channels.get(reportChannel).send(`$egg ${tierMatch[0]} ${gym} ${timeToHatch}`); 
+                    client.channels.get(reportChannel).send(`$egg ${tierMatch[0].substring(1,2)} ${gym} ${timeToHatch}`); 
                 } else {
                     console.log("error: ", "tier: ", tierMatch[0], " gym: ", gym, " time to hatch: ", timeToHatch);
                     client.channels.get(errorChannel).send(`Error: Tier: ${tierMatch[0].substring(1,2)}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
