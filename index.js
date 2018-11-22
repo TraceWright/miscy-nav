@@ -78,7 +78,7 @@ const calcTimeToHatch = (hatchTime) => {
 const createErrorMsg = (tierMatch, timeMatch, unmatched) => {
     return `error: Tier: ${tierMatch[0]},  ` +
     `Time: ${timeMatch[0]}, ` +
-    `Gym ${unmatched} `;
+    `Gym ${unmatched.toString().replace(",", " ")} `;
 }
 
 client.on("message", message => {
