@@ -22,6 +22,11 @@ const channelsLookup = [
         channelId: "512426983712620565",
         gymsLookup: kpGyms,
         name: "kp_gabba_eastbris",
+    },
+    {
+        channelId: "515034728009826314",
+        gymsLookup: allGyms,
+        name: "admin",
     }
 ];
 
@@ -66,11 +71,17 @@ const calcTimeToHatch = (hatchTime) => {
     return Math.floor((hatchTime - new Date().getTime()) / 60000)
 }
 
-const createErrorMsg = (tierMatch, gymAbbrvMatch, gymNameMatch, timeMatch) => {
+// const createErrorMsg = (tierMatch, gymAbbrvMatch, gymNameMatch, timeMatch) => {
+//     return `error: Tier: ${tierMatch[0]},  ` +
+//     `Gym Abbreviation: ${gymAbbrvMatch.length > 0 ? gymAbbrvMatch[0] : "invalid"} ` +
+//     `OR Gym Full Name: ${!!gymNameMatch && gymNameMatch.length > 0 ? gymNameMatch[0] : "invalid"}, ` +
+//     `Time: ${timeMatch[0]}`;
+// }
+
+const createErrorMsg = (tierMatch, timeMatch, unmatched) => {
     return `error: Tier: ${tierMatch[0]},  ` +
-    `Gym Abbreviation: ${gymAbbrvMatch.length > 0 ? gymAbbrvMatch[0] : "invalid"} ` +
-    `OR Gym Full Name: ${!!gymNameMatch && gymNameMatch.length > 0 ? gymNameMatch[0] : "invalid"}, ` +
-    `Time: ${timeMatch[0]}`;
+    `Time: ${timeMatch[0]}, ` +
+    `Gym: ${unmatched.toString().replace(",", " ")}`;
 }
 
 client.on("message", message => {
@@ -167,13 +178,13 @@ client.on("message", message => {
                         client.channels.get(reportChannel).send(report);
                     } else {
                         // Hatch time out of range
-                        const errorMessage = "Hatch time out of range " + createErrorMsg(tierMatch, gymAbbrvMatch, gymNameMatch, timeMatch);
+                        const errorMessage = "Hatch time out of range " + createErrorMsg(tierMatch, timeMatch, unmatched);
                         console.error(errorMessage);
                         client.channels.get(errorChannel).send(errorMessage);
                     }
                 } else {
                     // gym name mismatch
-                    const errorMessage = "Gym name mismatch " + createErrorMsg(tierMatch, gymAbbrvMatch, gymNameMatch, timeMatch);
+                    const errorMessage = "Gym name mismatch " + createErrorMsg(tierMatch, timeMatch, unmatched);
                     console.error(errorMessage);
                     client.channels.get(errorChannel).send(errorMessage);
                 }
