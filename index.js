@@ -6,6 +6,7 @@ const kpGyms = require('./gyms/kpGabbaGyms');
 const sbGyms = require('./gyms/sbGyms');
 const cbdGyms = require('./gyms/cbdGyms');
 const westEndGyms = require("./gyms/westEndGyms");
+const miltonGyms = require("./gyms/miltonGyms");
 
 const channelsLookup = [ 
     { 
@@ -27,6 +28,11 @@ const channelsLookup = [
         channelId: "512597629796876298",
         gymsLookup: westEndGyms,
         name: "westend"
+    },
+    {
+        channelId: "520435941496586246",
+        gymsLookup: miltonGyms,
+        name: "milton"
     },
     {
         channelId: "499532605348249601",
