@@ -46,7 +46,7 @@ const timeDotReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3])[\d\.][0-5][0-9]$/gm)
 const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
 
 const listenerChannels = channelsLookup.map(ch => { return ch.channelId });
-const reportChannel ="511390047434702849";
+const reportChannel ="525517549887029248";
 const errorChannel ="511472297513713674";
 
 const splitTime = (t) => {
