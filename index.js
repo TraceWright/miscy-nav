@@ -10,17 +10,17 @@ const miltonGyms = require("./gyms/miltonGyms");
 
 const channelsLookup = [ 
     { 
-        channelId: "506409230383841286",
+        channelId: "525556985354256405",
         gymsLookup: cbdGyms,
         name: "cbd",
     },
     { 
-        channelId: "501313521410244610",
+        channelId: "525562566953533440",
         gymsLookup: sbGyms,
         name: "southbank",
     },
     {
-        channelId: "499533390920417290",
+        channelId: "525563748904337428",
         gymsLookup: kpGyms,
         name: "kp_gabba_eastbris",
     },
@@ -30,17 +30,12 @@ const channelsLookup = [
         name: "westend"
     },
     {
-        channelId: "520435941496586246",
+        channelId: "1330475520408619",
         gymsLookup: miltonGyms,
         name: "milton"
     },
     {
-        channelId: "521158373824004096",
-        gymsLookup: miltonGyms,
-        name: "milton_separate_miscord"
-    },
-    {
-        channelId: "499532605348249601",
+        channelId: "2436118483127622",
         gymsLookup: allGyms,
         name: "discord_admin",
     }
