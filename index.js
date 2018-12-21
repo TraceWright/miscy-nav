@@ -30,12 +30,12 @@ const channelsLookup = [
         name: "westend"
     },
     {
-        channelId: "1330475520408619",
+        channelId: "525565862200082433",
         gymsLookup: miltonGyms,
         name: "milton"
     },
     {
-        channelId: "2436118483127622",
+        channelId: "525567401069379585",
         gymsLookup: allGyms,
         name: "discord_admin",
     }
