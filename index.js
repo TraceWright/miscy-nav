@@ -35,7 +35,7 @@ const channelsLookup = [
         name: "milton"
     },
     {
-        channelId: "525567401069379585",
+        channelId: "499532605348249601",
         gymsLookup: allGyms,
         name: "discord_admin",
     }
