@@ -1,10 +1,10 @@
-process.env.TZ = 'Australia/Brisbane';
-const Discord = require('discord.js');
+process.env.TZ = "Australia/Brisbane";
+const Discord = require("discord.js");
 const client = new Discord.Client();
-const allGyms = require('./gyms/allGyms.json');
-const kpGyms = require('./gyms/kpGabbaGyms');
-const sbGyms = require('./gyms/sbGyms');
-const cbdGyms = require('./gyms/cbdGyms');
+const allGyms = require("./gyms/allGyms.json");
+const kpGyms = require("./gyms/kpGabbaGyms");
+const sbGyms = require("./gyms/sbGyms");
+const cbdGyms = require("./gyms/cbdGyms");
 const westEndGyms = require("./gyms/westEndGyms");
 const miltonGyms = require("./gyms/miltonGyms");
 
