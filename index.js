@@ -78,7 +78,7 @@ const calcHatchTime = (h, m) => {
 }
 
 const calcTimeToHatch = (hatchTime) => {
-    return Math.floor((hatchTime - new Date().getTime()) / 60000)
+    return Math.floor((hatchTime - new Date().getTime()) / 60000);
 }
 
 const createErrorMsg = (tierMatch, timeMatch, unmatched) => {
