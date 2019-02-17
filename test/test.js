@@ -1,10 +1,6 @@
 var sinon = require("sinon");
-var sinonTest = require('sinon-test');
-var test = sinonTest(sinon);
 var assert = require('assert');
 var tk = require('timekeeper');
-
-var main = require('../index');
 
 msg = (messages) => {
 	ret = {};
@@ -15,18 +11,31 @@ msg = (messages) => {
 }
 
 const post = (channelId, message) => {
-    console.info(channelId, message);
+    console.info("TestingOutput ", channelId, message);
 }
 
 describe('Testing Messages', function() {
-	it('Simple Post', test(function() {
-		var clientMock = this.stub(main, 'post').callsFake(post);
+	var main = require('../index');
+	var clientMock = sinon.stub(main, 'post').callsFake(post);
+
+	it('Simple Egg Post dot time', function() {
+		clientMock.reset();
 		tk.freeze(new Date(1330688329321));
 
 		main.incomingMessage(msg('T5 pride 9.50'));
 
-		assert(clientMock.called);
-		// expect([1,2,3].indexOf(4), -1);
-	}));
+		assert(clientMock.calledOnce);
+		assert(clientMock.calledWith("525517549887029248", "$egg 5 \"pride\" 12"));
+	});
+
+	it('Simple Egg Post colon time', function() {
+		clientMock.reset();
+		tk.freeze(new Date(1330688329321));
+
+		main.incomingMessage(msg('T5 pride 9:50'));
+
+		assert(clientMock.calledOnce);
+		assert(clientMock.calledWith("525517549887029248", "$egg 5 \"pride\" 12"));
+	});
 });
 

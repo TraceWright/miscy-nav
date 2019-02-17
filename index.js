@@ -1,6 +1,4 @@
 process.env.TZ = "Australia/Brisbane";
-
-require("log-timestamp");
 const gyms = require("./gyms/config.js");
 
 const timeColonReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
@@ -165,6 +163,8 @@ exports.incomingMessage = (message) => {
 // If we are running this directly,
 // ie not testing open a connection
 if (require.main === module) {
+    require("log-timestamp");
+    
     const Discord = require("discord.js");
     const client = new Discord.Client();
     console.log("Opening Connection");
