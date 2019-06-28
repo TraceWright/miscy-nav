@@ -1,53 +1,11 @@
-process.env.TZ = 'Australia/Brisbane';
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const allGyms = require('./gyms/allGyms.json');
-const kpGyms = require('./gyms/kpGabbaGyms');
-const sbGyms = require('./gyms/sbGyms');
-const cbdGyms = require('./gyms/cbdGyms');
-const westEndGyms = require("./gyms/westEndGyms");
-const miltonGyms = require("./gyms/miltonGyms");
-
-const channelsLookup = [ 
-    { 
-        channelId: "525556985354256405",
-        gymsLookup: cbdGyms,
-        name: "cbd",
-    },
-    { 
-        channelId: "525562566953533440",
-        gymsLookup: sbGyms,
-        name: "southbank",
-    },
-    {
-        channelId: "525563748904337428",
-        gymsLookup: kpGyms,
-        name: "kp_gabba_eastbris",
-    },
-    {
-        channelId: "512597629796876298",
-        gymsLookup: westEndGyms,
-        name: "westend"
-    },
-    {
-        channelId: "525565862200082433",
-        gymsLookup: miltonGyms,
-        name: "milton"
-    },
-    {
-        channelId: "499532605348249601",
-        gymsLookup: allGyms,
-        name: "discord_admin",
-    }
-];
+process.env.TZ = "Australia/Brisbane";
+const gyms = require("./gyms/config.js");
 
 const timeColonReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/gm);
 const timeDotReg = new RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3])[\d\.][0-5][0-9]$/gm);
 const tiers = ["T1", "T2", "T3", "T4", "T5", "t1", "t2", "t3", "t4", "t5"];
 
 const listenerChannels = channelsLookup.map(ch => { return ch.channelId });
-const reportChannel ="525517549887029248";
-const errorChannel ="511472297513713674";
 
 const splitTime = (t) => {
     let time;
@@ -78,25 +36,30 @@ const calcHatchTime = (h, m) => {
 }
 
 const calcTimeToHatch = (hatchTime) => {
-    return Math.floor((hatchTime - new Date().getTime()) / 60000)
+    return Math.floor((hatchTime - new Date().getTime()) / 60000);
 }
 
 const createErrorMsg = (tierMatch, timeMatch, unmatched) => {
     return `error: Tier: ${tierMatch[0]},  ` +
     `Time: ${timeMatch[0]}, ` +
-    `Gym: ${unmatched.toString().replace(",", " ")} `;
+    `Gym: ${unmatched.toString().replace(",", " ")}, ` +
+    `PTime: ${new Date().getHours()}:${new Date().getMinutes()} `;
 }
 
-client.on("message", message => {
+exports.post = (channelId, message) => {
+    client.channels.get(channelId).send(message);
+}
+
+exports.incomingMessage = (message) => {
     
     if (listenerChannels.includes(message.channel.id)) {
 
         let msg = message.content.split(" ");
 
         console.log(msg);
-        let tierMatch = msg.filter((m, i) => { return tiers.includes(m) });
-        let timeColonMatch = msg.filter(m => { return m.match(timeColonReg) });
-        let timeDotMatch = msg.filter(m => { return m.match(timeDotReg) });
+        let tierMatch = msg.filter((m, i) => { return tiers.includes(m); });
+        let timeColonMatch = msg.filter(m => { return m.match(timeColonReg); });
+        let timeDotMatch = msg.filter(m => { return m.match(timeDotReg); });
 
         let timeMatch;
         if (timeColonMatch.length > 0 || timeDotMatch.length > 0) {
@@ -136,27 +99,27 @@ client.on("message", message => {
                     timeToHatch = calcTimeToHatch(calcHatchTime(h, t[1]));
                 }
                 if (!!gym && !!timeToHatch && timeToHatch > 0 && timeToHatch <= 60) {
-                    client.channels.get(reportChannel).send(`$egg ${tierMatch[0].substring(1,2)} ${gym} ${timeToHatch}`); 
+                    exports.post(reportChannel, `$egg ${tierMatch[0].substring(1,2)} ${gym} ${timeToHatch}`); 
                 } else {
                     console.log("error: ", "tier: ", tierMatch[0], " gym: ", gym, " time to hatch: ", timeToHatch);
-                    client.channels.get(errorChannel).send(`Error: Tier: ${tierMatch[0].substring(1,2)}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
+                    exports.post(errorChannel, `Error: Tier: ${tierMatch[0].substring(1,2)}, Gym: ${!!gym ? gym : "invalid"}, Time to hatch: ${!!timeToHatch ? timeToHatch : "invalid"}`); 
                 }
 
             } else {
 
                 const chn = channelsLookup.filter(ch => {
-                    return message.channel.id === ch.channelId
+                    return message.channel.id === ch.channelId;
                 });
                 const gyms = chn.length > 0 ? chn[0].gymsLookup : allGyms;
                 let gymNameMatch;
                 let gymAbbrvMatch;
                 let timeToHatch;
 
-                let unmatched = msg.filter((r, i) => { return i !== msg.indexOf(timeMatch[0]) && i !== msg.indexOf(tierMatch[0]) });
+                let unmatched = msg.filter((r, i) => { return i !== msg.indexOf(timeMatch[0]) && i !== msg.indexOf(tierMatch[0]); });
                 if (unmatched.length > 0) {
                     const potentialGym = unmatched.join(" ").toLowerCase();
                     gymAbbrvMatch = Object.keys(gyms).filter(g => { return g === potentialGym.toLowerCase()});
-                    gymNameMatch = gymAbbrvMatch.length <= 0 ? Object.values(gyms).filter(g => { return g === potentialGym.toLowerCase()}) : null;
+                    gymNameMatch = gymAbbrvMatch.length <= 0 ? Object.values(gyms).filter(g => { return g === potentialGym.toLowerCase(); }) : null;
                 } else {
                     console.error("no potential gym name in message");
                 }
@@ -173,31 +136,39 @@ client.on("message", message => {
                             `$egg ${tierMatch[0].substring(1,2)} "${gymName}" ${timeToHatch}` ;
                         ;
                         console.info(report);
-                        client.channels.get(reportChannel).send(report);
+                        exports.post(reportChannel, report);
                     } else {
                         // Hatch time out of range
                         const errorMessage = "Hatch time out of range " + createErrorMsg(tierMatch, timeMatch, unmatched);
                         console.error(errorMessage);
-                        client.channels.get(errorChannel).send(errorMessage);
+                        exports.post(errorChannel, errorMessage);
                     }
                 } else {
                     // gym name mismatch
                     const errorMessage = "Gym name mismatch " + createErrorMsg(tierMatch, timeMatch, unmatched);
                     console.error(errorMessage);
-                    client.channels.get(errorChannel).send(errorMessage);
+                    exports.post(errorChannel, errorMessage);
                 }
             }
         } else {
             // time or tier mismatch
             // const errorMessage = `Error: Time: ${timeMatch.length > 0 ? timeMatch[0] : "invalid"}, Tier: ${tierMatch.length > 0 ? tierMatch : "invalid"}`;
             // console.error(errorMessage);
-            // client.channels.get(errorChannel).send(errorMessage);
+            // exports.post(errorChannel, errorMessage);
         }
     }
 
-});
+};
 
-require("log-timestamp");
-console.log("Opening Connection");
+// If we are running this directly,
+// ie not testing open a connection
+if (require.main === module) {
+    require("log-timestamp");
+    
+    const Discord = require("discord.js");
+    const client = new Discord.Client();
+    console.log("Opening Connection");
+    client.on("message", exports.incomingMessage);
+    client.login(discordToken).catch((e) => { console.log(e); });
+}
 
-client.login("token");
